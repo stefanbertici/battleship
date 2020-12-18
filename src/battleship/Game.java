@@ -1,6 +1,8 @@
 package battleship;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
     private Player player1;
@@ -178,15 +180,23 @@ public class Game {
 
     public void placeShip(Player player, Ship ship, Scanner scanner) {
         boolean withFog = true;
-
         System.out.printf("\nEnter the coordinates of the %s (%d cells):\n", ship.getName(), ship.getLength());
         while (true) {
-            System.out.print("\n> ");
-            String input = scanner.nextLine();
-            String[] parts = input.split("\\s");
+            String input;
+            String[] parts = {"",""};
 
-            if (parts.length != 2) {
-                throw new IllegalArgumentException("Wrong coordinate format. Try again:");
+            //we make sure that the user input is in the expected format
+            while(true) {
+                System.out.print("\n> ");
+                input = scanner.nextLine();
+                Pattern pattern = Pattern.compile("[A-J]([1-9]|10)\\s[A-J]([1-9]|10)");
+                Matcher matcher = pattern.matcher(input);
+                if (matcher.matches()) {
+                    parts = input.split("\\s");
+                    break;
+                } else {
+                    System.out.println("\nWrong coordinate format. Try again:");
+                }
             }
 
             if (isValidToPlace(player, ship, parts[0], parts[1])) {
@@ -279,15 +289,24 @@ public class Game {
             System.out.println("---------------------");
             player.drawField(!withFog);
             System.out.printf("\n%s, it's your turn:\n", player.getName());
-            System.out.print("\n> ");
-            String input = scanner.nextLine();
+            String input;
+            //we make sure that the user input is in the expected format
+            while(true) {
+                System.out.print("\n> ");
+                input = scanner.nextLine();
+                Pattern pattern = Pattern.compile("[A-J]([1-9]|10)");
+                Matcher matcher = pattern.matcher(input);
+                if (matcher.matches()) {
+                    break;
+                } else {
+                    System.out.println("\nWrong coordinate format. Try again:");
+                }
+            }
+
             int[] coordinates = convert(input);
             int row = coordinates[0];
             int col = coordinates[1];
-
-            if (row < 0 || row > 9 || col < 0 || col > 9) {
-                System.out.println("\nError! You entered the wrong coordinates!");
-            } else if (enemy.getFieldCell(row, col) == '~') {
+            if (enemy.getFieldCell(row, col) == '~') {
                 enemy.setFieldCell(row, col, 'M');
                 enemy.setFieldWithFogCell(row, col, 'M');
                 System.out.println("\nYou missed!");
