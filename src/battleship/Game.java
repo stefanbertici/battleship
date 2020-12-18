@@ -25,7 +25,6 @@ public class Game {
 
         //converting beginning coordinates into integer rows and cols [0-9]
         coordinates[0] = begin.charAt(0) - 65;
-
         if (begin.length() == 2) {
             coordinates[1] = begin.charAt(1) - 49;
         } else if (begin.length() == 3 && begin.charAt(1) == '1' && begin.charAt(2) == '0'){
@@ -36,7 +35,6 @@ public class Game {
 
         //converting end coordinates into integer rows and cols [0-9]
         coordinates[2] = end.charAt(0) - 65;
-
         if (end.length() == 2) {
             coordinates[3] = end.charAt(1) - 49;
         } else if (end.length() == 3 && end.charAt(1) == '1' && end.charAt(2) == '0'){
@@ -65,7 +63,6 @@ public class Game {
 
         //converting coordinate into integer rows and cols [0-9]
         coordinates[0] = coord.charAt(0) - 65;
-
         if (coord.length() == 2) {
             coordinates[1] = coord.charAt(1) - 49;
         } else if (coord.length() == 3 && coord.charAt(1) == '1' && coord.charAt(2) == '0'){
@@ -221,6 +218,7 @@ public class Game {
     }
 
     public void play(Scanner scanner) {
+        //initializing the ships for both players, ships[0-4] for p1 and ships[5-9] for p2
         Ship[] ships = new Ship[10];
         ships[0] = new Ship("Aircraft Carrier", 5);
         ships[1] = new Ship("Battleship", 4);
@@ -267,7 +265,7 @@ public class Game {
 
         Player player, enemy;
         boolean playerOneTurn = true;
-        //while game is not over, continue with game logic
+        //while game is not over, continue with game flow
         while (!player1.isDefeated() && !player2.isDefeated()) {
             if (playerOneTurn) {
                 player = player1;
@@ -298,7 +296,7 @@ public class Game {
             } else {
                 enemy.setFieldCell(row, col, 'X');
                 enemy.setFieldWithFogCell(row, col, 'X');
-                enemy.getFieldWithShipsCell(row, col).shoot();
+                enemy.getFieldWithShipsCell(row, col).hit();
                 if (enemy.getFieldWithShipsCell(row, col).isSunk()) {
                     if (enemy.getFloatingShips() > 1) {
                         System.out.println("\nYou sank a ship!");

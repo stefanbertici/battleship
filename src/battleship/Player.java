@@ -20,9 +20,8 @@ public class Player {
     }
 
     public void sinkShip() {
-        this.floatingShips--;
-        if (this.floatingShips < 0) {
-            this.floatingShips = 0;
+        if (this.floatingShips > 0) {
+            this.floatingShips--;
         }
     }
 
@@ -46,31 +45,24 @@ public class Player {
 
     public void drawField(boolean withFog) {
         char rowCharacter = 'A';
+        char[][] fieldToPrint;
 
-        if (!withFog) {
-            System.out.println("  1 2 3 4 5 6 7 8 9 10");
+        if (withFog) {
+            fieldToPrint = fieldWithFog;
+        } else {
+            fieldToPrint = field;
+        }
 
-            for (int row = 0; row < field.length; row++) {
-                System.out.print(rowCharacter + " ");
-                for (int col = 0; col < field[0].length; col++) {
-                    System.out.print(field[row][col] + " ");
-                }
+        System.out.println("  1 2 3 4 5 6 7 8 9 10");
 
-                System.out.println();
-                rowCharacter++;
+        for (int row = 0; row < fieldToPrint.length; row++) {
+            System.out.print(rowCharacter + " ");
+            for (int col = 0; col < fieldToPrint[0].length; col++) {
+                System.out.print(fieldToPrint[row][col] + " ");
             }
-        } else if (withFog) {
-            System.out.println("  1 2 3 4 5 6 7 8 9 10");
 
-            for (int row = 0; row < fieldWithFog.length; row++) {
-                System.out.print(rowCharacter + " ");
-                for (int col = 0; col < fieldWithFog[0].length; col++) {
-                    System.out.print(fieldWithFog[row][col] + " ");
-                }
-
-                System.out.println();
-                rowCharacter++;
-            }
+            System.out.println();
+            rowCharacter++;
         }
     }
 

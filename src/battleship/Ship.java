@@ -19,10 +19,9 @@ public class Ship {
         return this.length;
     }
 
-    public void shoot() {
-        this.healthPoints--;
-        if (this.healthPoints < 0) {
-            this.healthPoints = 0;
+    public void hit() {
+        if (this.healthPoints > 0) {
+            this.healthPoints--;
         }
     }
 
