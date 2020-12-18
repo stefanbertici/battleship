@@ -319,10 +319,11 @@ public class Game {
                 if (enemy.getFieldWithShipsCell(row, col).isSunk()) {
                     if (enemy.getFloatingShips() > 1) {
                         System.out.println("\nYou sank a ship!");
+                        enemy.sinkShip();
                     } else {
                         System.out.println("\nYou sank the last ship. You Won. Congratulations!");
+                        break;
                     }
-                    enemy.sinkShip();
                 } else {
                     System.out.println("\nYou hit a ship!");
                 }
